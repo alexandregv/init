@@ -1,0 +1,3 @@
+On peut utiliser la commande `nslookup 10.12.9.7` (remplacer l'ip par celle du post actuel)
+On trouve alors (pour cette ip) le nom: e2r9p7@42.fr
+On aurait aussi pu utiliser la commande `hostname`

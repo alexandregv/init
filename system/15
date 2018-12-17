@@ -1,0 +1,1 @@
+kill -9 $(ps -A | grep "tail -f /var/log/syslog" -m 1 | cut -d " " -f 1)

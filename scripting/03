@@ -1,0 +1,134 @@
+# ANSI Start Codes
+
+# Styles.
+Normal="\x1b[0m"
+Bold="\x1b[1m"
+Faint="\x1b[2m"
+Italic="\x1b[3m"
+Underline="\x1b[4m"
+Blink_Slow="\x1b[5m"
+Blink_Rapid="\x1b[6m"
+Inverse="\x1b[7m"
+Conceal="\x1b[8m"
+Crossed_Out="\x1b[9m"
+# Text colors.
+Black="\x1b[30m"
+Red="\x1b[31m"
+Green="\x1b[32m"
+Yellow="\x1b[33m"
+Blue="\x1b[34m"
+Magenta="\x1b[35m"
+Cyan="\x1b[36m"
+White="\x1b[37m"
+# Background colors.
+Bg_Black="\x1b[40m"
+Bg_Red="\x1b[41m"
+Bg_Green="\x1b[42m"
+Bg_Yellow="\x1b[43m"
+Bg_Blue="\x1b[44m"
+Bg_Magenta="\x1b[45m"
+Bg_Cyan="\x1b[46m"
+Bg_White="\x1b[47m"
+# Resets
+NoStyle="\x1b[0m"
+NoUnderline="\x1b[24m"
+NoInverse="\x1b[27m"
+NoColor="\x1b[39m"
+
+read -p "Quelle partie souhaitez-vous corriger ? [1/2/3] " part
+
+declare -a network_list=(
+	"$Blue Récupérez la liste des interfaces réseau de la machine sans afficher aucun détail pour ces interfaces. Vraiment juste la liste des noms. $NoColor"
+	"$Blue Identifiez et affichez les caractéristiques de l’interface Ethernet: \n	a)Indiquez l’adresse de Broadcast\n	b)Indiquez toutes les adresses IP qui font partie du même sous-réseau"
+	"$Blue Identifiez l’adresse MAC de la carte Wi-Fi"
+	"$Blue Identifiez la gateway par défaut dans la table de routage"
+	"$Blue Identifiez l’IP du serveur DNS qui répond sur le domaine suivant : slash16.org"
+	"$Red Récupérez le path complet du fichier dans lequel est écrit l’adresse IP du serveur DNS que vous utilisez"
+	"$Blue Interrogez un serveur DNS externe sur le nom de domaine slash16.org (ex : google 8.8.8.8)"
+	"$Red Trouver chez quel hébergeur est le site de Slash16"
+	"$Green Trouver l’IP Publique de 42.fr"
+	"$Blue Identifiez les différents appareils réseaux entre votre poste et le domaine slash16.org"
+	"$Red Trouvez grâce au résultat de la commande précédente le nom et l’IP du matériel qui fait le lien entre vous (réseau local) et l’extérieur"
+	"$Blue Trouvez l’IP qui vous a été assignée par le serveur dhcp"
+	"$Green Grâce a la question précédente et au reverse DNS retrouvez le nom de votre host"
+	"$Red Quel est le fichier contenant les entrées locales DNS ?"
+	"$Red Faites pointer intra.42.fr sur l’adresse suivante 46.19.122.85"
+)
+declare -a system_list=(
+	"$Red Dans quel fichier se trouve la version installée de votre Debian ?"
+	"$Blue Quelle commande permet de renommer votre système ?"
+	"$Red Quel est le fichier à modifier pour rendre cela permanent ?"
+	"$Blue Quelle commande donne le temps depuis lequel votre système à été démarré la dernière fois ?"
+	"$Blue Donnez une commande qui détermine l’état du service SSH"
+	"$Blue Donnez une commande pour redémarrer le service SSH"
+	"$Blue Déterminez le PID du service SSHD"
+	"$Red Quel fichier contient les clés RSA des machines autorisées à se connecter via SSH ?"
+	"$Blue Quelle commande permet de savoir quelles personnes sont connectées sur le système ?"
+	"$Blue Quelle commande permet de lister les tables de partitions des disques ?"
+	"$Blue Quelle commande permet d’afficher l’espace disponible et utilisé sur le système d’une manière humainement compréhensible ?"
+	"$Blue Déterminez la taille exacte de chaque dossier de /var d’une manière humainement compréhensible suivi du chemin de celui-ci."
+	"$Blue Trouvez une commande qui permet, en temps réel, de trouver les processus en cours d’exécution"
+	"$Blue Lancez en background la commande tail -f /var/log/syslog"
+	"$Blue Trouvez une commande qui permet de tuer le processus de la commande en background"
+	"$Red Trouvez un service qui permet de lancer des tâches à horaires régulières"
+	"$Blue Trouvez une commande qui, en parallèle de la session graphique, permet de se connecter en ssh sur la machine"
+	"$Blue Donnez une commande qui permet d’arrêter le service ssh"
+	"$Green Listez les services qui se lancent automatiquement lorsque la machine boot et indiquez le nom donné à ce type de service"
+	"$Blue Listez tout les utilisateurs existants sur la machine"
+	"$Blue Listez tout les utilisateurs réels de la machine"
+	"$Blue Quelle commande permet d’ajouter un utilisateur local supplémentaire ?"
+	"$Red Expliquez comment se connecter en tant que ce nouvelle utilisateur. (En session graphique et en session ssh)"
+	"$Blue Quelle commande permet de lister tout les packages INSTALLÉS sur la machine ?"
+)
+declare -a scripting_list=(
+	"$Blue Réalisez un script qui affiche seulement le login, le UID et le Path de chaques entrée du fichier /etc/passwd"
+	"$Blue Réalisez un script qui permet de supprimer un user LOGUÉ sur la machine"
+	"$Blue Jamais 2 sans 3. Réalise un script de ton choix. La qualité de ton script, devant ton évaluateur tu soutiendras."
+)
+
+declare -a network_runnables=(15 1 2 3 4 5 0 7 0 0 -10 0 12 0 0 0)
+declare -a system_runnables=(24 0 2 0 4 5 6 7 0 9 10 11 12 -13 14 15 0 17 18 0 20 21 0 0 24)
+declare -a scripting_runnables=(3 1 2 0)
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then 
+  e="-e"
+  timecmd="timeout"
+elif [[ "$OSTYPE" == "darwin"* ]]; then 
+  e=""
+  timecmd="gtimeout"
+fi
+
+if [ $part = "1" ]; then
+  part="network"
+  list=("${network_list[@]}")
+  runnables=("${network_runnables[@]}")
+elif [ $part = "2" ]; then
+  part="system"
+  list=("${system_list[@]}")  
+  runnables=("${system_runnables[@]}")
+elif [ $part = "3" ]; then
+  part="scripting"
+  list=("${scripting_list[@]}")  
+  runnables=("${scripting_runnables[@]}")
+fi
+
+clear
+read -p "Voulez-vous lancer les commandes apres les avoir affichees ? [y/n] " runcmd
+for i in $(seq 1 ${runnables[0]}); do
+	echo $e $NoColor$Bold$Underline$i$NoStyle") " ${list[$i-1]}$NoColor$NoStyle
+	if [ $i -lt "10" ]; then
+		file="../$part/0$i"
+	else
+		file="../$part/$i"
+	fi
+	cat $file
+	if [ $runcmd = "y" ] && [ ${runnables[$i]} -ne "0" ]; then
+		echo "========================================"
+		timeout=""
+		if [ ${runnables[$i]} -lt 0 ]; then
+		  timeout="$timecmd 5s"
+		fi
+		$timeout sh $file
+	fi
+	echo $e "$NoColor$NoStyle$NoUnderline"
+done

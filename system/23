@@ -1,0 +1,7 @@
+Pour se connecter en session graphique avec cet user, il faut lancer la machine,
+selectionner cet user dans le DM, puis entrer son mot de passe. GG michel
+
+Pour se connecter en ssh, il faut utiliser la commande `ssh user@host.tld`
+en remplacant user par l'user, evidement.
+On peut remplacer le `host.tld` si on est en local, mais pas trop d'interet du coup ^^
+On peut egalement changer d'user (dans le terminal) avec `su user`

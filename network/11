@@ -1,0 +1,2 @@
+`nat-1` qui a l'IP 10.60.1.11
+C'est en fait le routeur qui fait la liaison entre mon poste (reseau local) et l'exterieur (on appelle ca du NAT)
